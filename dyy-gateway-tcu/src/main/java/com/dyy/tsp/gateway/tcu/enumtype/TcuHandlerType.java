@@ -2,23 +2,27 @@ package com.dyy.tsp.gateway.tcu.enumtype;
 
 import com.dyy.tsp.core.base.IStatus;
 import com.dyy.tsp.core.evgb.entity.RealTimeData;
+import com.dyy.tsp.gateway.tcu.vin.QueryCommandHandler;
+import com.dyy.tsp.gateway.tcu.vin.RemoteControlCommandHandler;
+import com.dyy.tsp.gateway.tcu.vin.SetCommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public enum TcuHandlerType {
 
     //上行指令
     VEHICLE_LOGIN((short)1, "车辆登入",null, null),
-    VEHICLE_LOGOUT((short)2,"车辆登出",null,null),
-    REALTIME_DATA_REPORTING((short)3,"实时信息上报",new RealTimeData(), null),
-    REPLACEMENT_DATA_REPORTING((short)4,"补发信息上报",new RealTimeData(),null),
+    REALTIME_DATA_REPORTING((short)2,"实时信息上报",new RealTimeData(), null),
+    REPLACEMENT_DATA_REPORTING((short)3,"补发信息上报",new RealTimeData(),null),
+    VEHICLE_LOGOUT((short)4,"车辆登出",null,null),
     PLATFORM_LOGIN((short)5,"平台登入",null, null), //国家过检才用
     PLATFORM_LOGOUT((short)6,"平台登出",null,null), //国家过检才用
     HEARTBEAT((short)7,"心跳",null, null),
     TERMINAL_CHECK_TIME((short)8,"终端校时",null, null),
 
     //下行指令
-    QUERY_COMMAND((short)128,"查询命令",null,null),
-    SET_COMMAND((short)129,"设置命令",null,null),
-    REMOTE_CONTROL((short)130,"车载终端控制命令",null,null),
+    QUERY_COMMAND((short)128,"查询命令",null, QueryCommandHandler.class),
+    SET_COMMAND((short)129,"设置命令",null, SetCommandHandler.class),
+    REMOTE_CONTROL((short)130,"车载终端控制命令", null,RemoteControlCommandHandler.class),
     ;
 
     private Short id;
@@ -67,7 +71,7 @@ public enum TcuHandlerType {
 
     public static TcuHandlerType valuesOf(Short id) {
         for (TcuHandlerType enums : TcuHandlerType.values()) {
-            if (enums.getId()==id) {
+            if (enums.getId().shortValue()==id.shortValue()) {
                 return enums;
             }
         }

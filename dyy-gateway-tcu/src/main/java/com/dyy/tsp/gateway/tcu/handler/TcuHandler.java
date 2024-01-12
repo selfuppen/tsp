@@ -1,17 +1,13 @@
 package com.dyy.tsp.gateway.tcu.handler;
 
-import com.alibaba.fastjson.JSONObject;
-import com.dyy.tsp.common.enumtype.LibraryType;
 import com.dyy.tsp.core.evgb.entity.DataBody;
 import com.dyy.tsp.core.evgb.entity.EvGBProtocol;
 import com.dyy.tsp.core.evgb.enumtype.CommandType;
 import com.dyy.tsp.core.evgb.enumtype.ResponseType;
-import com.dyy.tsp.gateway.tcu.config.TcuProperties;
 import com.dyy.tsp.gateway.tcu.netty.TcuChannel;
 import com.dyy.tsp.gateway.tcu.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,14 +19,10 @@ public class TcuHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TcuHandler.class);
 
-    @Autowired
-    private RedisHandler redisHandler;
-
-    @Autowired
-    private TcuProperties tcuProperties;
+//    @Autowired
+//    private RedisHandler redisHandler;
 
     public void commandDown(CommandDownRequestVo commandDownRequestVo) {
-        redisHandler.getRedisTemplateByType(LibraryType.COMMAND).convertAndSend(tcuProperties.getCommandRequestTopic(), JSONObject.toJSONString(commandDownRequestVo));
     }
 
     public void vehicleLogin(VehicleLoginVo vehicleLoginVo) {
@@ -79,6 +71,7 @@ public class TcuHandler {
         protocol.setResponseType(ResponseType.COMMAND);
         protocol.setVin(realTimeDataVo.getVin());
         protocol.setBody(new DataBody(realTimeDataVo.encode()));
+
         TcuChannel.INSTANCE.getChannelHandlerContext().channel().writeAndFlush(protocol.encode());
         LOGGER.debug("{} {}",realTimeDataVo.getVin(),protocol.getCommandType().getDesc());
     }
@@ -92,4 +85,5 @@ public class TcuHandler {
         TcuChannel.INSTANCE.getChannelHandlerContext().channel().writeAndFlush(protocol.encode());
         LOGGER.debug("{} {}",vin,protocol.getCommandType().getDesc());
     }
+
 }

@@ -8,14 +8,14 @@ package com.dyy.tsp.core.evgb.enumtype;
 public enum CommandType {
 
     //上行指令
-    VEHICLE_LOGIN((short)1, "车辆登入"),
-    VEHICLE_LOGOUT((short)2,"车辆登出"),
-    REALTIME_DATA_REPORTING((short)3,"实时信息上报"),
-    REPLACEMENT_DATA_REPORTING((short)4,"补发信息上报"),
-    PLATFORM_LOGIN((short)5,"平台登入"), //国家过检才用
-    PLATFORM_LOGOUT((short)6,"平台登出"), //国家过检才用
-    HEARTBEAT((short)7,"心跳"),
-    TERMINAL_CHECK_TIME((short)8,"终端校时"),
+    VEHICLE_LOGIN((short)1, "VEHICLE_LOGIN"),
+    VEHICLE_LOGOUT((short)4,"VEHICLE_LOGOUT"),
+    REALTIME_DATA_REPORTING((short)2,"REALTIME_DATA_REPORTING"),
+    REPLACEMENT_DATA_REPORTING((short)3,"REPLACEMENT_DATA_REPORTING"),
+    PLATFORM_LOGIN((short)5,"PLATFORM_LOGIN"), //国家过检才用
+    PLATFORM_LOGOUT((short)6,"PLATFORM_LOGOUT"), //国家过检才用
+    HEARTBEAT((short)7,"HEARTBEAT"),
+    TERMINAL_CHECK_TIME((short)8,"TERMINAL_CHECK_TIME"),
 
     //下行指令
     QUERY_COMMAND((short)128,"查询命令"),
@@ -49,8 +49,9 @@ public enum CommandType {
 
     public static CommandType valuesOf(Short id) {
         for (CommandType enums : CommandType.values()) {
-            if (enums.getId()==id) {
+            if (enums.getId().shortValue() == id.shortValue()) {
                 return enums;
+
             }
         }
         return null;

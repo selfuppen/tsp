@@ -3,7 +3,7 @@ package com.dyy.tsp.gateway.tcu.websocket;
 import com.alibaba.fastjson.JSONObject;
 import com.dyy.tsp.common.entity.CommandDownRequest;
 import com.dyy.tsp.common.enumtype.LibraryType;
-import com.dyy.tsp.gateway.tcu.handler.RedisHandler;
+//import com.dyy.tsp.gateway.tcu.handler.RedisHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,6 @@ public class DebugWebSocketHandler implements WebSocketHandler {
 
     private static final String SRM_COMMAND_REQUEST = "dyy_command_request_data";
 
-    private static RedisHandler redisHandler;
-
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String vin = session.getUri().toString().split("vin=")[1];
@@ -43,7 +41,7 @@ public class DebugWebSocketHandler implements WebSocketHandler {
             LOGGER.info("{} webSocket console open",vin);
             //通知网关开始监控
             CommandDownRequest request = new CommandDownRequest(vin, OPEN_DEBUG);
-            redisHandler.getRedisTemplateByType(LibraryType.COMMAND).convertAndSend(SRM_COMMAND_REQUEST, JSONObject.toJSONString(request));
+//            redisHandler.getRedisTemplateByType(LibraryType.COMMAND).convertAndSend(SRM_COMMAND_REQUEST, JSONObject.toJSONString(request));
             LOGGER.info("{} send gateway open debug",vin);
         }
     }
@@ -70,7 +68,7 @@ public class DebugWebSocketHandler implements WebSocketHandler {
         LOGGER.info("{} webSocket console close",vin);
         //通知网关停止监控
         CommandDownRequest request = new CommandDownRequest(vin, CLOSE_DEBUG);
-        redisHandler.getRedisTemplateByType(LibraryType.COMMAND).convertAndSend(SRM_COMMAND_REQUEST, JSONObject.toJSONString(request));
+//        redisHandler.getRedisTemplateByType(LibraryType.COMMAND).convertAndSend(SRM_COMMAND_REQUEST, JSONObject.toJSONString(request));
         LOGGER.info("{} send gateway close debug",vin);
     }
 
@@ -132,15 +130,6 @@ public class DebugWebSocketHandler implements WebSocketHandler {
 
     public Map<String, WebSocketSession> getDevices() {
         return devices;
-    }
-
-    public RedisHandler getRedisHandler() {
-        return redisHandler;
-    }
-
-    @Autowired
-    public void setRedisHandler(RedisHandler redisHandler) {
-        this.redisHandler = redisHandler;
     }
 
 }

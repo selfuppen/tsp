@@ -1,27 +1,41 @@
 package com.dyy.tsp.gateway.tcu.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @SuppressWarnings("all")
 @ConfigurationProperties(prefix = TcuProperties.PREFIX)
+@Data
 public class TcuProperties {
 
     public static final String PREFIX = "tcu";
 
-    //网关TCP域名或者IP
-    private String gatewayHost = "localhost";
+    //网关域名 TODO:需要替换为您的云网关实例的域名
+    private String gatewayHost = "192.168.10.37";
 
-    //网关TCP端口
-    private Integer gatewayPort = 8111;
+    //网关端口 TODO:需要替换为您的云网关实例的端口号
+    private Integer gatewayPort = 16003;
+
+    //是否使用TLS TODO:如果使用了TCP直连，需要将其设置为FALSE
+    private boolean useSSL = Boolean.FALSE;
+
+    //如果没有使用TLS,请忽略；如果用到了，请设置根证书root-ca.crt的路径位置
+    private String CA_PATH = "${Your Absolute Path of root-ca.crt file}";
+
+    //车辆识别代码. 长度为17个字节。TODO: 需要替换为您车辆的vin号，并在控制台以此vin号创建设备
+    private String vin = "1234567890123456c";
+
+    //SIM卡的ICCID号，长度为20位字符串
+    private String iccid = "12345678901234567890";
+
+    //登入流水号，范围为1~65531，长度为2个字节，每次登录都需要对该值+1
+    private Integer serialNum = 1;
 
     //Tbox终端应该设置4秒1次心跳。这里TCP模拟就设置30秒
     private Integer timeout = 30;
 
-    //最大重连次数
-    private Integer reconnectMaxNum = 10000;
-
-    //心跳模拟车辆
-    private String heartVin;
+    //最大重连次数，当前设置为0，表示断线不重连。用户可以修改该值以实现重连
+    private Integer reconnectMaxNum = 0;
 
     private Integer maxFrameLength = 65556;
 
@@ -50,147 +64,4 @@ public class TcuProperties {
     //指令下发请求
     private String commandRequestTopic = "dyy_command_request_data";
 
-    public String getGatewayHost() {
-        return gatewayHost;
-    }
-
-    public void setGatewayHost(String gatewayHost) {
-        this.gatewayHost = gatewayHost;
-    }
-
-    public Integer getGatewayPort() {
-        return gatewayPort;
-    }
-
-    public void setGatewayPort(Integer gatewayPort) {
-        this.gatewayPort = gatewayPort;
-    }
-
-    public String getHeartVin() {
-        return heartVin;
-    }
-
-    public void setHeartVin(String heartVin) {
-        this.heartVin = heartVin;
-    }
-
-    public Integer getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Integer timeout) {
-        this.timeout = timeout;
-    }
-
-    public Integer getMaxFrameLength() {
-        return maxFrameLength;
-    }
-
-    public void setMaxFrameLength(Integer maxFrameLength) {
-        this.maxFrameLength = maxFrameLength;
-    }
-
-    public Integer getLengthFieldOffset() {
-        return lengthFieldOffset;
-    }
-
-    public void setLengthFieldOffset(Integer lengthFieldOffset) {
-        this.lengthFieldOffset = lengthFieldOffset;
-    }
-
-    public Integer getLengthFieldLength() {
-        return lengthFieldLength;
-    }
-
-    public void setLengthFieldLength(Integer lengthFieldLength) {
-        this.lengthFieldLength = lengthFieldLength;
-    }
-
-    public Integer getLengthAdjustment() {
-        return lengthAdjustment;
-    }
-
-    public void setLengthAdjustment(Integer lengthAdjustment) {
-        this.lengthAdjustment = lengthAdjustment;
-    }
-
-    public Integer getInitialBytesToStrip() {
-        return initialBytesToStrip;
-    }
-
-    public void setInitialBytesToStrip(Integer initialBytesToStrip) {
-        this.initialBytesToStrip = initialBytesToStrip;
-    }
-
-    public Boolean getFailFast() {
-        return failFast;
-    }
-
-    public void setFailFast(Boolean failFast) {
-        this.failFast = failFast;
-    }
-
-    public String getKafkaAcks() {
-        return kafkaAcks;
-    }
-
-    public void setKafkaAcks(String kafkaAcks) {
-        this.kafkaAcks = kafkaAcks;
-    }
-
-    public String getKafkaLinger() {
-        return kafkaLinger;
-    }
-
-    public void setKafkaLinger(String kafkaLinger) {
-        this.kafkaLinger = kafkaLinger;
-    }
-
-    public String getKafkaRetries() {
-        return kafkaRetries;
-    }
-
-    public void setKafkaRetries(String kafkaRetries) {
-        this.kafkaRetries = kafkaRetries;
-    }
-
-    public String getKafkaRetryBackoff() {
-        return kafkaRetryBackoff;
-    }
-
-    public void setKafkaRetryBackoff(String kafkaRetryBackoff) {
-        this.kafkaRetryBackoff = kafkaRetryBackoff;
-    }
-
-    public String getKafkaReconnectBackoff() {
-        return kafkaReconnectBackoff;
-    }
-
-    public void setKafkaReconnectBackoff(String kafkaReconnectBackoff) {
-        this.kafkaReconnectBackoff = kafkaReconnectBackoff;
-    }
-
-    public String getKafkaCompressionType() {
-        return kafkaCompressionType;
-    }
-
-    public void setKafkaCompressionType(String kafkaCompressionType) {
-        this.kafkaCompressionType = kafkaCompressionType;
-    }
-
-    public String getCommandRequestTopic() {
-        return commandRequestTopic;
-    }
-
-    public void setCommandRequestTopic(String commandRequestTopic) {
-        this.commandRequestTopic = commandRequestTopic;
-    }
-
-    public Integer getReconnectMaxNum() {
-        return reconnectMaxNum;
-    }
-
-    public void setReconnectMaxNum(Integer reconnectMaxNum) {
-        this.reconnectMaxNum = reconnectMaxNum;
-    }
 }

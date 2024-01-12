@@ -7,7 +7,7 @@
         </encoder>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/logs/tcu.log</file>
+        <file>client.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             <fileNamePattern>/logs/tcu.%i.log.zip</fileNamePattern>
             <minIndex>1</minIndex>
@@ -22,7 +22,7 @@
     </appender>
 
     <!-- root级别 项目日志级别在配置文件中设置-->
-    <root level="INFO">
+    <root level="DEBUG">
         <!-- 控制台输出 -->
         <appender-ref ref="STDOUT"/>
         <!-- 文件输出 -->
