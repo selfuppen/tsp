@@ -1,3 +1,6 @@
+> GB/T 32690 客户端模拟器 说明文档：
+> http://confluence.polarizon.com/pages/viewpage.action?pageId=70615092
+
 # tsp 车联网功能陆续抽空完善
 基于GB32960协议数据接入网关
 
